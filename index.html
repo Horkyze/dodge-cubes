@@ -1,0 +1,49 @@
+
+<html>
+<head>
+	<!-- libs !-->
+
+	<script type="text/javascript" src="libs/three.js"></script>
+	<script type="text/javascript" src="libs/jquery.js"></script>
+	<script type="text/javascript" src="libs/stats.min.js"></script> 
+	<script type="text/javascript" src="libs/helvetiker_regular.typeface.js"></script>
+
+	<!-- src !-->
+	
+	<script type="text/javascript" src="src/functions.js" ></script>
+
+	<script type="text/javascript" src="src/game_engine.js" ></script>
+	<script type="text/javascript" src="src/game_scenes.js" ></script>
+
+	<script type="text/javascript" src="src/model_cube.js" ></script>
+	<script type="text/javascript" src="src/model_sphere.js" ></script>
+	<script type="text/javascript" src="src/model_vehicle.js" ></script>
+
+	<script type="text/javascript" src="src/game_controller.js" ></script>
+
+
+
+	<style type="text/css">
+		body {
+			font-family: Monospace;
+			background-color: #f0f0f0;
+			margin: 0px;
+			overflow: hidden;
+		}
+	</style>
+  	
+  	<title>Dodge-cubes!</title>
+
+</head>
+<body>
+	<div style="position: absolute; top: 10px; width: 100%; text-align: center;">
+		A <a href="http://threejs.org" target="_blank">three.js</a> game - dodge cubes!
+		<div id="main_menu">
+			<p onclick="game.state = 'run';" >Play game!</p>
+			<p>How to play?</p>
+			<p>Credits.</p>
+			<p></p>
+		</div>
+	</div>
+</body>
+</html>
