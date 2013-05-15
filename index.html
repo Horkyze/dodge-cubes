@@ -7,7 +7,8 @@
 	<script type="text/javascript" src="libs/jquery.js"></script>
 	<script type="text/javascript" src="libs/stats.min.js"></script> 
 	<script type="text/javascript" src="libs/helvetiker_regular.typeface.js"></script>
-
+	<script type="text/javascript" src="libs/FirstPersonControls.js"></script> 
+	
 	<!-- src !-->
 	
 	<script type="text/javascript" src="src/functions.js" ></script>
@@ -15,6 +16,7 @@
 	<script type="text/javascript" src="src/game_engine.js" ></script>
 	<script type="text/javascript" src="src/game_scenes.js" ></script>
 
+	<script type="text/javascript" src="src/model_text.js" ></script>
 	<script type="text/javascript" src="src/model_cube.js" ></script>
 	<script type="text/javascript" src="src/model_sphere.js" ></script>
 	<script type="text/javascript" src="src/model_vehicle.js" ></script>
@@ -30,6 +32,15 @@
 			margin: 0px;
 			overflow: hidden;
 		}
+		#main_menu p{
+			cursor: pointer;
+			font-size:  18px;
+		}
+		#main_menu p:hover{
+			color: red;
+			font-size: 20px;
+		}
+
 	</style>
   	
   	<title>Dodge-cubes!</title>
@@ -44,6 +55,9 @@
 			<p>Credits.</p>
 			<p></p>
 		</div>
+	</div>
+	<div style="position: absolute; top: 40%; text-align: center; font-size: 15px; background: white;">
+		<p style="margin: auto;">Takto sa hra</p>
 	</div>
 </body>
 </html>

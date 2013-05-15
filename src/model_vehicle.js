@@ -1,10 +1,15 @@
 
 game.models.Vehicle = function(x,y,z){
 
-	// position
-	this.x  = x;
-	this.y  = y;
-	this.z  = z;
+	this.vx = 10;
+	this.vy = 10;
+	
+	this.max = {}
+	this.max.vx = 80;
+	this.max.vy = 80;
+
+	this.ax = 10;
+	this.ay = 80;
 
 	this.instance;
 

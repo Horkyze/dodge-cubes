@@ -59,6 +59,7 @@ game.input = {
 
 	onDocumentMouseDown: function( event ) {
 
+		msg("lol");
 		//event.preventDefault();
 
 		console.log("Mouse clicked here: " + event.clientX + " " + event.clientY);
@@ -153,7 +154,7 @@ game.input = {
 			game.vehicle.instance.position.y +=50;
 			if ( game.vehicle.instance.position.y  > game.config.game_plane_height )
 			{
-				alert("Prehral si!");
+				msg("Prehral si!");
 				game.state = "stop";
 				game.vehicle.instance.position.y -=100;
 			}
@@ -163,7 +164,7 @@ game.input = {
 			game.vehicle.instance.position.y += -50;
 			if ( game.vehicle.instance.position.y  < 0 )
 			{
-				alert("Prehral si!");
+				msg("Prehral si!");
 				game.state = "stop";
 			}
 		}
@@ -172,7 +173,7 @@ game.input = {
 			game.vehicle.instance.position.x +=20;
 			if ( game.vehicle.instance.position.x  > game.config.game_plane_width )
 			{
-				alert("VYHRAL SI!");
+				msg("VYHRAL SI!");
 				game.state = "stop";
 			}
 		}
@@ -190,7 +191,7 @@ game.input = {
 			{
 				if (Math.abs( game.scene[i].instance.position.y - game.vehicle.instance.position.y) < game.config.barrier_size/2 + 50)
 				{
-					alert("Prehral si!");
+					msg("Prehral si!");
 					game.state = "stop";
 				}
 			}

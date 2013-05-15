@@ -26,9 +26,11 @@ game.init = function(){
     );
     game.three.camera.position.set( -4000, game.config.game_plane_height/2, 800 );
 	game.three.camera.lookAt( new THREE.Vector3( game.config.game_plane_width/2-500, game.config.game_plane_height/2, -1000) );
+	game.three.camera.rotation.x = 90 * Math.PI / 180;
 
     // create scene
     game.three.scene = new THREE.Scene();
+    game.three.scene.fog = new THREE.FogExp2( 0x4747FF, 0.00015 );
 
 	/* If the getContext() method has already been invoked on this element for 
 	 * the same contextId, return the same object as was returned that time, 
@@ -51,7 +53,7 @@ game.init = function(){
 	document.addEventListener( 'mousedown', game.input.onDocumentMouseDown, false );
 
 	// hard input
-	//document.addEventListener('keypress', function(event) { game.input.Key.onKeyPress(event); }, false);
+	document.addEventListener('keypress', function(event) { console.log(event.keyCode);/*game.input.Key.onKeyPress(event);*/ }, false);
 
 	//game state, start the game paused or running
 	game.state = "paused";
@@ -67,6 +69,8 @@ game.init = function(){
 
  	// init game
  	game.init();
+
+ 	var clock = new THREE.Clock();
  		
  	// create some objects
  	for (var i = 0; i < 1000; i++) 
@@ -88,10 +92,10 @@ game.init = function(){
 	}
 
 	game.vehicle = new game.models.Vehicle(
-			game.config.barrier_size/2, // x
-			game.config.barrier_size/2 + game.config.game_plane_height/2, // y
-			game.config.barrier_size/2 // z
-		);
+		game.config.barrier_size/2, // x
+		game.config.barrier_size/2 + game.config.game_plane_height/2, // y
+		50 //game.config.barrier_size/2 // z
+	);
 
 	game.three.scene.add( game.vehicle.getInstance() );
 
@@ -110,32 +114,26 @@ game.init = function(){
     }));
     plane.overdraw = true;
     plane.position.set(game.config.game_plane_width/2, game.config.game_plane_height/2, 0);
-    plane.receiveShadow = true;
     game.three.scene.add(plane);
 
     // add subtle ambient lighting
     var ambientLight = new THREE.AmbientLight(0x555555);
-    game.three.scene.add(ambientLight);
+    //game.three.scene.add(ambientLight);
 
     // add directional light source
     var directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(1, 1, 1).normalize();
-    game.three.scene.add(directionalLight);
+    //game.three.scene.add(directionalLight);
 
-  
-  	var controls = {} //new THREE.TrackballControls( game.three.camera );
-	controls.rotateSpeed = 1.0;
-	controls.zoomSpeed = 2.0;
-	controls.panSpeed = 0.8;
 
-	// kam sa ma kamera pozerat ked sa pootoci vesmir
-	//controls.target = new THREE.Vector3( game.config.game_plane_width/2, game.config.game_plane_height/2, 0);
+	controls = new THREE.FirstPersonControls( game.three.camera );
 
-	controls.noZoom = true;
-	controls.noPan = true;
-
-	controls.staticMoving = true;
-	controls.dynamicDampingFactor = 0.3;
+	controls.movementSpeed = 1000;
+	controls.lookSpeed = 0.125;
+	controls.lookVertical = true;
+	controls.constrainVertical = true;
+	controls.verticalMin = 1.1;
+	controls.verticalMax = 2.2;
 
 
 	// and go!
@@ -161,18 +159,19 @@ game.init = function(){
 			game.three.camera.position.x += 40;
 			game.vehicle.instance.position.x += 40;
 
-			//controls.target = new THREE.Vector3( game.config.game_plane_width/2 + game.three.camera.position.x, game.config.game_plane_height/2, 0);
-
+			//controls.update();
 			game.three.renderer.render( game.three.scene, game.three.camera );
 
 		}
 		else if (game.state == "paused")
 		{			
 			requestAnimationFrame( animate );
-
+			
 			game.input.handleInput();
-
-			game.three.camera.rotation.x = 90 * Math.PI / 180;
+			//controls.update(clock.getDelta());
+			//game.three.camera.position.x = 200;
+			//game.three.camera.rotation.x = 90 * Math.PI / 180;
+			
 			game.three.renderer.render( game.three.scene, game.three.camera );
 		}
 		game.stats.update();

@@ -18,7 +18,6 @@ game.models.Cube = function(x,y,z,dx,dy,dz,size){
 		new THREE.CubeGeometry( this.size, this.size, this.size ), 
 		new THREE.MeshNormalMaterial() 
 	);
-	this.instance.castShadow = true;
 	this.instance.position.set(x,y,z);
 	
 }
