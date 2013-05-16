@@ -16,20 +16,25 @@ game.three = {
 	camera   : null,
 	renderer : null
 }
-
  // default settings
 game.config = {
-
 	"canvas_width"  : window.innerWidth,
 	"canvas_height" : window.innerHeight,
-
-
 	"game_plane_height" : 20000,
-	"game_plane_width"  : 150000,
-
+	"game_plane_width"  : 300000,
 	"barrier_size" : 200
-
 };
+
+game.engine.time = {
+	start : 0,
+	besttime : [],
+	update : function(){
+		if (game.state == "run")
+			$("#time").text( parseInt($("#time").text()) + 1 );
+	}
+}
+
+
 
 game.engine.moveObjects = function(){
 
@@ -46,27 +51,50 @@ game.engine.moveObjects = function(){
 			game.scene[i].dy *= -1;
 		}
 
-		// move ball
 		game.scene[i].instance.position.x += game.scene[i].dx;
 		game.scene[i].instance.position.y += game.scene[i].dy;
 
-		// draw ball
-		//game.scene[i].draw();
 	};
+}
+
+game.engine.moveVehicle = function(direction, a){
+	
+	
+	// accelerate in given[direction]
+	//game.vehicle.v[direction] += game.vehicle.a[direction] * a;
+
+	// set new position
+	game.three.camera.position[direction] 	 += game.vehicle.v[direction] * a;
+	game.vehicle.instance.position[direction] += game.vehicle.v[direction] * a;
+
+
+}
+
+game.rendering = function(){
+	if (game.scene.length > 0 )
+	{
+		game.three.renderer.render( game.three.scene, game.three.camera );
+	}
+	game.three.camera.rotation.x = 90 * Math.PI / 180;
+	game.stats.update();
+	requestAnimationFrame( game.rendering );
+}
+
+game.simulation = function(){
+	if (game.state == "run"){
+		game.input.handleInput();
+		game.engine.moveObjects();
+		game.three.camera.position.x 	 += game.vehicle.v.x;
+		game.vehicle.instance.position.x += game.vehicle.v.x;
+	}
 }
 
 game.input = {
 
 	onDocumentMouseDown: function( event ) {
 
-		msg("lol");
-		//event.preventDefault();
-
-		console.log("Mouse clicked here: " + event.clientX + " " + event.clientY);
-		
-
+		//console.log("Mouse clicked here: " + event.clientX + " " + event.clientY);
 		var projector = new THREE.Projector();
-
 		var mouse = new THREE.Vector3(
 			(event.clientX / window.innerWidth) * 2 - 1,
 			-(event.clientY / window.innerHeight) * 2 + 1,
@@ -84,11 +112,9 @@ game.input = {
 		var intersects = raycaster.intersectObjects( game.three.scene.__objects, true );
 
 		if ( intersects.length > 0 ) {
-
 			console.log("Si stlacil");
 			intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
 		}
-
 	},
 
 	Key : {
@@ -150,18 +176,16 @@ game.input = {
 
 
 		if (this.Key.isDown(this.Key.LEFT)) {
-			game.three.camera.position.y += 50;
-			game.vehicle.instance.position.y +=50;
+			game.engine.moveVehicle('y', 1);
 			if ( game.vehicle.instance.position.y  > game.config.game_plane_height )
 			{
 				msg("Prehral si!");
 				game.state = "stop";
-				game.vehicle.instance.position.y -=100;
+				//game.vehicle.instance.position.y -=100;
 			}
 		}
 		if (this.Key.isDown(this.Key.RIGHT)){
-			game.three.camera.position.y += -50;
-			game.vehicle.instance.position.y += -50;
+			game.engine.moveVehicle('y', -1);
 			if ( game.vehicle.instance.position.y  < 0 )
 			{
 				msg("Prehral si!");
@@ -169,19 +193,26 @@ game.input = {
 			}
 		}
 		if (this.Key.isDown(this.Key.UP)){
-			game.three.camera.position.x += 20;
-			game.vehicle.instance.position.x +=20;
+			game.engine.moveVehicle('x', 1);
 			if ( game.vehicle.instance.position.x  > game.config.game_plane_width )
 			{
-				msg("VYHRAL SI!");
+				var now = Date.now();
+				var time = now - game.engine.time.start;
+				game.engine.time.besttime.push(time);
+				var largest = Math.max.apply(Math, game.engine.time.besttime);
+				if (time < largest || game.engine.time.besttime.length == 1)
+				{
+					msg("Best time! "+time);
+					$("#besttime").text(time);
+					game.three.scene.__objects.shift();
+				}
 				game.state = "stop";
 			}
 		}
 		if (this.Key.isDown(this.Key.DOWN)){
-			game.three.camera.position.x += -40;
-			game.vehicle.instance.position.x += -40;
+			game.engine.moveVehicle('x', -1);
 		}
-
+		game.state = "run";
 
 		for ( var i in game.scene )
 		{

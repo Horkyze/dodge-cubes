@@ -32,13 +32,13 @@
 			margin: 0px;
 			overflow: hidden;
 		}
-		#main_menu p{
+		#main_menu span{
+			margin: 10px;
 			cursor: pointer;
-			font-size:  18px;
+			text-decoration: underline;
 		}
-		#main_menu p:hover{
+		#main_menu span:hover{
 			color: red;
-			font-size: 20px;
 		}
 
 	</style>
@@ -48,16 +48,18 @@
 </head>
 <body>
 	<div style="position: absolute; top: 10px; width: 100%; text-align: center;">
-		A <a href="http://threejs.org" target="_blank">three.js</a> game - dodge cubes!
+		A <a href="http://threejs.org" target="_blank">three.js</a> game - dodge cubes! | 
+		<a href="https://github.com/Horkyze/dodge-cubes" target="_blank">Github repository</a> |
+		music by <a href="http://www.newgrounds.com/audio/listen/376737" target="_blank">skullbeatz</a>
 		<div id="main_menu">
-			<p onclick="game.newGame();" >New Game!</p>
-			<p>How to play?</p>
-			<p>Credits.</p>
-			<p></p>
+			<span onclick="game.newGame();" >New Game!</span>
+			<span onclick="alert('Use arrows to move :)');">How to play?</span>
+			<span onclick="alert('Created by Matej Bellus');">Credits.</span>
 		</div>
-	</div>
-	<div style="position: absolute; top: 40%; text-align: center; font-size: 15px; background: white;">
-		<p style="margin: auto;">Takto sa hra</p>
+		<div>
+			Best time : <span id="best_time"> - </span> s<br>
+			Your time : <span id="time" style="color: red;">0</span> s
+		</div>	
 	</div>
 	<audio hidden id="audio">
 		<source src="libs/376737_Skullbeatz___Bad_Cat_Maste.ogg" type="audio/ogg">
