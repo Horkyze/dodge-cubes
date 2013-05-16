@@ -50,7 +50,7 @@
 	<div style="position: absolute; top: 10px; width: 100%; text-align: center;">
 		A <a href="http://threejs.org" target="_blank">three.js</a> game - dodge cubes!
 		<div id="main_menu">
-			<p onclick="game.state = 'run';" >Play game!</p>
+			<p onclick="game.newGame();" >New Game!</p>
 			<p>How to play?</p>
 			<p>Credits.</p>
 			<p></p>
@@ -59,5 +59,9 @@
 	<div style="position: absolute; top: 40%; text-align: center; font-size: 15px; background: white;">
 		<p style="margin: auto;">Takto sa hra</p>
 	</div>
+	<audio hidden id="audio">
+		<source src="libs/376737_Skullbeatz___Bad_Cat_Maste.ogg" type="audio/ogg">
+		<source src="libs/376737_Skullbeatz___Bad_Cat_Maste.mp3" type="audio/mpeg">
+	</audio>
 </body>
 </html>
