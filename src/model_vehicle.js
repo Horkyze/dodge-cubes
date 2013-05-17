@@ -2,7 +2,7 @@
 game.models.Vehicle = function(x,y,z){
 
 	this.v = []
-	this.v.x = 40;
+	this.v.x = 160;
 	this.v.y = 80;
 	
 	this.max_v = []

@@ -71,6 +71,7 @@ game.engine.moveVehicle = function(direction, a){
 }
 
 game.rendering = function(){
+
 	if (game.scene.length > 0 )
 	{
 		game.three.renderer.render( game.three.scene, game.three.camera );
@@ -196,15 +197,17 @@ game.input = {
 			game.engine.moveVehicle('x', 1);
 			if ( game.vehicle.instance.position.x  > game.config.game_plane_width )
 			{
-				var now = Date.now();
-				var time = now - game.engine.time.start;
+				var time = parseInt( $("#time").text() );
 				game.engine.time.besttime.push(time);
-				var largest = Math.max.apply(Math, game.engine.time.besttime);
-				if (time < largest || game.engine.time.besttime.length == 1)
+				var min = Math.min.apply(Math, game.engine.time.besttime);
+				if (time < min || game.engine.time.besttime.length == 1)
 				{
-					msg("Best time! "+time);
-					$("#besttime").text(time);
+					msg("Best time! "+ $("#time").text());
+					$("#best_time").text( time );
 					game.three.scene.__objects.shift();
+				}
+				else{
+					msg("Not your best..");
 				}
 				game.state = "stop";
 			}
@@ -212,7 +215,6 @@ game.input = {
 		if (this.Key.isDown(this.Key.DOWN)){
 			game.engine.moveVehicle('x', -1);
 		}
-		game.state = "run";
 
 		for ( var i in game.scene )
 		{
