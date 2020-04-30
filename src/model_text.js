@@ -14,13 +14,11 @@ function msg(text_msg)
 	middle.y	= ( text3d.boundingBox.min.y + text3d.boundingBox.max.y ) / 2;
 	middle.z	= ( text3d.boundingBox.min.z + text3d.boundingBox.max.z ) / 2;
 
-	console.log(middle);
-
 	var textMaterial = new THREE.MeshBasicMaterial( { color: /*Math.random() * */ 0xffe200, overdraw: true } );
 	var text = new THREE.Mesh( text3d, textMaterial );
 
 	text.position.x = game.vehicle.instance.position.x + 1000;
-	text.position.y = game.vehicle.instance.position.y + middle.x; 
+	text.position.y = game.vehicle.instance.position.y + middle.x;
 	text.position.z = 100;
 
 	text.rotation.x = 0;

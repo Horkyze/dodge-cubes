@@ -42,7 +42,7 @@ game.engine.moveObjects = function(){
 
 	for (var i = 0; i < game.scene.length; i++) {
 
-		// no move beyond boundaries 
+		// no move beyond boundaries
 		if ( game.scene[i].instance.position.x + game.scene[i].dx >= game.config.game_plane_width || game.scene[i].instance.position.x + game.scene[i].dx < 0) {
 			game.scene[i].dx *= -1;
 		}
@@ -58,8 +58,8 @@ game.engine.moveObjects = function(){
 }
 
 game.engine.moveVehicle = function(direction, a){
-	
-	
+
+
 	// accelerate in given[direction]
 	//game.vehicle.v[direction] += game.vehicle.a[direction] * a;
 
@@ -82,8 +82,9 @@ game.rendering = function(){
 }
 
 game.simulation = function(){
+	game.input.handleInput();
 	if (game.state == "run"){
-		game.input.handleInput();
+		game.input.handleGameInput();
 		game.engine.moveObjects();
 		game.three.camera.position.x 	 += game.vehicle.v.x;
 		game.vehicle.instance.position.x += game.vehicle.v.x;
@@ -94,26 +95,23 @@ game.input = {
 
 	onDocumentMouseDown: function( event ) {
 
-		//console.log("Mouse clicked here: " + event.clientX + " " + event.clientY);
 		var projector = new THREE.Projector();
 		var mouse = new THREE.Vector3(
 			(event.clientX / window.innerWidth) * 2 - 1,
 			-(event.clientY / window.innerHeight) * 2 + 1,
 			0.5
 		);
-		console.log(mouse);
 		projector.unprojectVector( mouse, game.three.camera );
 
-		var raycaster = new THREE.Raycaster( 
+		var raycaster = new THREE.Raycaster(
 			game.three.camera.position,
-			mouse.sub( game.three.camera.position ).normalize() 
+			mouse.sub( game.three.camera.position ).normalize()
 		);
 
 		// original "objects"
 		var intersects = raycaster.intersectObjects( game.three.scene.__objects, true );
 
 		if ( intersects.length > 0 ) {
-			console.log("Si stlacil");
 			intersects[ 0 ].object.material.color.setHex( Math.random() * 0xffffff );
 		}
 	},
@@ -127,9 +125,10 @@ game.input = {
 		UP: 38,
 		RIGHT: 39,
 		DOWN: 40,
+		SPACE: 32,
 		ESC: 27,
 		P: 112, // pause
-	
+
 
 		isDown: function(keyCode) {
 			return this._pressed[keyCode];
@@ -137,7 +136,6 @@ game.input = {
 
 		onKeydown: function(event) {
 			this._pressed[event.keyCode] = true;
-			//console.log("Got: " + event.keyCode);
 		},
 
 		onKeyup: function(event) {
@@ -145,8 +143,6 @@ game.input = {
 		},
 
 		onKeyPress: function(event){
-
-			console.log("Got: " + event.keyCode);
 
 			if ( this.normalPress[event.keyCode] )
 				delete this.normalPress[event.keyCode];
@@ -159,10 +155,18 @@ game.input = {
 		}
 	},
 
-	handleInput : function(){
+	handleInput : function() {
+
+		if ( this.Key.isDown(this.Key.SPACE) ) {
+			// start new game
+			game.newGame();
+		}
+
+	},
+
+	handleGameInput : function(){
 
 		if ( this.Key.isPressed(this.Key.P) ) {
-
 			// is is game paused, we want to unpause it
 			if (game.state == "paused")
 			{
@@ -174,7 +178,6 @@ game.input = {
 				return;
 			}
 		}
-
 
 		if (this.Key.isDown(this.Key.LEFT)) {
 			game.engine.moveVehicle('y', 1);
