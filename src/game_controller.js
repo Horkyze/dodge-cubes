@@ -25,7 +25,7 @@ game.oneTimeInit = function(){
 	// smooth input
 	document.addEventListener('keyup', function(event) { game.input.Key.onKeyup(event); }, false);
 	document.addEventListener('keydown', function(event) { game.input.Key.onKeydown(event); }, false);
-	
+
 	// ked sa zmeni velkost okna
 	window.addEventListener( 'resize', onWindowResize, false );
 
@@ -33,7 +33,7 @@ game.oneTimeInit = function(){
 	document.addEventListener( 'mousedown', game.input.onDocumentMouseDown, false );
 
 	// hard input
-	document.addEventListener('keypress', function(event) { console.log(event.keyCode);/*game.input.Key.onKeyPress(event);*/ }, false);
+	// document.addEventListener('keypress', function(event) { console.log(event.keyCode);/*game.input.Key.onKeyPress(event);*/ }, false);
 
 	setInterval(game.engine.time.update, 1000);
 }
@@ -53,9 +53,9 @@ game.newGame = function()
     game.three.camera.position.set( -9000, game.config.game_plane_height/2, 800 );
 	game.three.camera.lookAt( new THREE.Vector3( game.config.game_plane_width/2-500, game.config.game_plane_height/2, -1000) );
 	game.three.camera.rotation.x = 90 * Math.PI / 180;
-    
+
     // create some objects
- 	for (var i = 0; i < 3000; i++) 
+ 	for (var i = 0; i < 3000; i++)
 	{
 		// add new ball object to array
 		// init with random values
@@ -106,7 +106,7 @@ game.newGame = function()
 
  	// init game
  	game.oneTimeInit();
-	game.newGame(); 
+	game.newGame();
 
 	// start rendering loop
 	game.rendering();
